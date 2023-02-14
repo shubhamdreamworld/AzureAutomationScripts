@@ -1,5 +1,5 @@
-    $VmName = "VMMargConnectMongoDBWin"
-    $ResourceGroupName = "RES_MARG_CI"
+    $VmName = ""
+    $ResourceGroupName = ""
     $VmAction = "Start"
 
     # Being able to run it through Azure Automation.
