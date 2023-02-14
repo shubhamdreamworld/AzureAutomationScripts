@@ -1,5 +1,5 @@
-$ResourceGroupName = "RES_MARG_CI"
-$VMName = "VMDRDWSQLDBN"
+$ResourceGroupName = ""
+$VMName = ""
 
 $connectionName = "AzureRunAsConnection"
 try
