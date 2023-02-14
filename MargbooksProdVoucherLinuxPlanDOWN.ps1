@@ -5,8 +5,8 @@ Write-Output "Script started." | timestamp
 $newTier = "Basic"
 $newSize = "B2"
 
-$resourceGroupName = "margbooksprod"
-$appServiceName = "MargbooksProdVoucherLinuxPlan"
+$resourceGroupName = ""
+$appServiceName = ""
 
 #Authenticate with Azure Automation Run As account (service principal)   
 $conn = Get-AutomationConnection -Name "AzureRunAsConnection" 
