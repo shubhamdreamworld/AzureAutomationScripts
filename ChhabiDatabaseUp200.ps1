@@ -1,6 +1,6 @@
-$resourceGroupName = "res_Marg_CI"
-$serverName = "margbooksdbserver"
-$databaseName = "newmargDB361549325125"
+$resourceGroupName = ""
+$serverName = ""
+$databaseName = ""
 $scaleEdition = "Standard"
 $scaleTier = "S4"
 
