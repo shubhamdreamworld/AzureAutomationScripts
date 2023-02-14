@@ -1,0 +1,61 @@
+$today = (Get-Date -f yyyy-MM-dd)
+
+$connectionName = "AzureRunAsConnection"
+
+try{
+    $Conn = Get-AutomationConnection -Name $connectionName
+    "Logging into Azure..."
+    Connect-AzAccount `
+        -ServicePrincipal -TenantID $Conn.TenantID `
+        -ApplicationId $Conn.ApplicationID `
+        -CertificateThumbprint $Conn.CertificateThumbprint `
+}
+catch{
+    if(!$Conn){
+        $ErrorMessage = "Connection $connectionName not found."
+        throw $ErrorMessage
+    }else {
+        Write-Error -Message $_.Exception
+        throw $_.Exception
+    }
+}
+if($err) {
+    throw $err
+}
+
+
+$delResList = Get-AzResource -TagName DeleteAfter -ResourceType "Microsoft.Compute/snapshots"
+
+foreach($delRes in $delResList) {
+    $delResIdText = $delRes.ResourceId
+    $delTagText = $delRes.Tags["DeleteAfter"]
+    $delSnapsList = New-Object -TypeName "System.Collections.ArrayList"
+    $notDelSnapsList = New-Object -TypeName "System.Collections.ArrayList"
+    
+    if($delTagText -lt $today){
+        Remove-AzResource -ResourceId $delResIdText -Force
+        $delSnapsList.Add($delResIdText)
+
+    }else{
+        $notDelText = "$delResIdText ($delTagText)"
+        $notDelSnapsList.Add($notDelText)
+    }
+}
+
+if($delSnapsList.Length -gt 0){
+    Write-Output "The following Snapshots were deleted during this run:"
+    foreach($delSnap in $delSnapsList) {
+        Write-Output $delSnap
+    }
+}else{
+    Write-Output "No Snapshots were deleted during this run."
+}
+
+if($notDelSnapsList.Length -gt 0){
+    Write-Output "The following Snapshots will be deleted in the future:"
+    foreach($notDelSnap in $notDelSnapsList) {
+        Write-Output $notDelSnap
+    }
+}else{
+    Write-Output "There are currently no Snapshots up for deletion."
+}
