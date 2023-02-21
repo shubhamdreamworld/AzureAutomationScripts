@@ -1,6 +1,6 @@
-$ResourceGroupName = "res_Marg_CI"
-$ServerName = "margbooksdbserver"
-$DatabaseName = "newmargDB361549325125" 
+$ResourceGroupName = ""
+$ServerName = ""
+$DatabaseName = "" 
 $Edition = "GeneralPurpose"
 $PricingTier = "GP_Gen5_4"
 
